@@ -49,14 +49,14 @@
 						</div>
 						<div class="col-12 col-md order-4 order-md-2">
 							<div class="input-group flex-nowrap px-xl-4">
-								<input type="text" class="form-control w-100" placeholder="Search for Products">
+								<input type="text" id="input_pencarian" name="input_pencarian" class="form-control w-100" value="{{$search}}" placeholder="Search for Products">
 								<!-- <select class="form-select flex-shrink-0" aria-label="Default select example" style="width: 10.5rem;">
 									<option selected>All Categories</option>
 									<option value="1">One</option>
 									<option value="2">Two</option>
 									<option value="3">Three</option>
 								</select> -->
-								 <span class="input-group-text cursor-pointer"><i class='bx bx-search'></i></span>
+								 <span id="tombol_pencarian" class="input-group-text cursor-pointer"><i class='bx bx-search'></i></span>
 							</div>
 						</div>
 						<div class="col col-md-auto order-3 d-none d-xl-flex align-items-center">

@@ -156,7 +156,7 @@
                     //console.log(data)
                    // setCookie('token',data.token, 7);
                     localStorage.setItem('token',data.token);
-                    window.location.href = '/dashboard';
+                    window.location.href = 'admin/dashboard';
                 }
             });
           /*  $.ajax({

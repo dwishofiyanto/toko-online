@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
@@ -18,10 +19,28 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $product = Product::with(['categories','subcategories'])->get();
+        $query_product = Product::with(['categories','subcategories']);
+        if($request->sort == 'terrendah')
+        {
+            $query_product->orderBy('harga','asc');
+        }
+        if($request->sort == 'tertinggi')
+        {
+            $query_product->orderBy('harga','desc');
+        }
+        if($request->sort == 'terbaru')
+        {
+            $query_product->orderBy('created_at','asc');
+        }
+
+        if($request->search)
+        {
+            $query_product->where('nama_barang', 'LIKE', '%'.$request->search.'%');
+        }
+        $show = $request->show ?? 2;
+        $product = $query_product->paginate($show); 
         return response()->json(['data' =>$product]);
         
     }

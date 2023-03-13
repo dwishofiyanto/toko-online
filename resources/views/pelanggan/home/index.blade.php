@@ -1,6 +1,7 @@
 @extends('layout.apppelanggan')
 @section('titile','HOME')
 @section('content')
+
 <div class="page-wrapper">
 			<div class="page-content">
 				<!--start breadcrumb-->
@@ -39,24 +40,19 @@
 											</div>
 											<hr class="d-flex d-xl-none" />
 											<div class="product-categories">
-												<h6 class="text-uppercase mb-3">Categories</h6>
+												<h6 class="text-uppercase mb-3">Kategori</h6>
 												<ul class="list-unstyled mb-0 categories-list">
-													<li><a href="javascript:;">Clothings <span class="float-end badge rounded-pill bg-light">42</span></a>
+												@php
+												$kategori = App\Models\Category::all();
+												@endphp
+													@foreach($kategori as $kategori)
+													@php
+													$count = App\Models\Subcategory::where('id_kategori',$kategori->id)->get()->count();
+													
+													@endphp
+													<li><a href="javascript:;">{{$kategori->nama_kategori}} <span class="float-end badge rounded-pill bg-light">{{$count}}</span></a>
 													</li>
-													<li><a href="javascript:;">Sunglasses <span class="float-end badge rounded-pill bg-light">32</span></a>
-													</li>
-													<li><a href="javascript:;">Bags <span class="float-end badge rounded-pill bg-light">17</span></a>
-													</li>
-													<li><a href="javascript:;">Watches <span class="float-end badge rounded-pill bg-light">217</span></a>
-													</li>
-													<li><a href="javascript:;">Furniture <span class="float-end badge rounded-pill bg-light">28</span></a>
-													</li>
-													<li><a href="javascript:;">Shoes <span class="float-end badge rounded-pill bg-light">145</span></a>
-													</li>
-													<li><a href="javascript:;">Accessories <span class="float-end badge rounded-pill bg-light">15</span></a>
-													</li>
-													<li><a href="javascript:;">Headphones <span class="float-end badge rounded-pill bg-light">8</span></a>
-													</li>
+													@endforeach
 												</ul>
 											</div>
 											<hr>
@@ -197,52 +193,52 @@
 							<div class="col-12 col-xl-9">
 								<div class="product-wrapper">
 									<div class="toolbox d-flex align-items-center mb-3 gap-2">
+										
 										<div class="d-flex flex-wrap flex-grow-1 gap-1">
-											<div class="d-flex align-items-center flex-nowrap">
+											<!-- <div class="d-flex align-items-center flex-nowrap">
 												<p class="mb-0 font-13 text-nowrap text-white">Sort By:</p>
 												<select class="form-select ms-3 rounded-0">
-													<option value="menu_order" selected="selected">Default sorting</option>
-													<option value="popularity">Sort by popularity</option>
-													<option value="rating">Sort by average rating</option>
-													<option value="date">Sort by newness</option>
-													<option value="price">Sort by price: low to high</option>
-													<option value="price-desc">Sort by price: high to low</option>
+													<option value="menu_order" selected="selected">Default</option>
+													<option value="popularity">Harga Terandah</option>
+													<option value="rating">Harga Tertinggi</option>
+													<option value="date">Terbaru</option>
+													
+												
 												</select>
-											</div>
+											</div> -->
 										</div>
+
+
 										<div class="d-flex flex-wrap">
 											<div class="d-flex align-items-center flex-nowrap">
-												<p class="mb-0 font-13 text-nowrap text-white">Show:</p>
-												<select class="form-select ms-3 rounded-0">
-													<option>9</option>
-													<option>12</option>
-													<option>16</option>
-													<option>20</option>
-													<option>50</option>
-													<option>100</option>
+												<p class="mb-0 font-13 text-nowrap text-white">Urutkan :</p>
+												<select class="form-select ms-3 rounded-0" id="sort">
+												<option value="">Default</option>
+													<option {{ ( $sort == "terrendah") ? 'selected' : '' }} value="terrendah">Harga Terandah</option>
+													<option {{ ( $sort == "tertinggi") ? 'selected' : '' }} value="tertinggi">Harga Tertinggi</option>
+													<option {{ ( $sort == "terbaru") ? 'selected' : '' }} value="terbaru">Terbaru</option>
 												</select>
 											</div>
 										</div>
-										<div>	<a href="shop-grid-left-sidebar.html" class="btn btn-white rounded-0"><i class='bx bxs-grid me-0'></i></a>
+										<!-- <div>	<a href="shop-grid-left-sidebar.html" class="btn btn-white rounded-0"><i class='bx bxs-grid me-0'></i></a>
 										</div>
 										<div>	<a href="shop-list-left-sidebar.html" class="btn btn-light rounded-0"><i class='bx bx-list-ul me-0'></i></a>
-										</div>
+										</div> -->
 									</div>
+
+									
 									<div class="product-grid">
 										<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
 
-									@php
-									$produk = App\Models\Product::all();
-									@endphp	
-									@foreach($produk as $produk)
-									@php
-									$kategori = App\Models\Category::where('id',$produk->id_kategori)->first();
-									@endphp
+								
+									
+									@foreach($produk['data'] as $produk)
+								
 											<div class="col">
 												<div class="card rounded-0 product-card">
 													<div class="card-header bg-transparent border-bottom-0">
 														<div class="d-flex align-items-center justify-content-end gap-3">
-															<a href="javascript:;">
+															<a  >
 																<div class="product-compare"><span><i class="bx bx-git-compare"></i> Compare</span>
 																</div>
 															</a>
@@ -259,12 +255,12 @@
 																<p class="product-catergory font-13 mb-1">{{$kategori->nama_kategori}}</p>
 															</a>
 															<a href="javascript:;">
-																<h6 class="product-name mb-2">{{$produk->nama_barang}}</h6>
+																<h6 class="product-name mb-2">{{$produk['nama_barang']}}</h6>
 															</a>
 															<div class="d-flex align-items-center">
 																<div class="mb-1 product-price">	
 																	<!--<span class="me-1 text-decoration-line-through">$99.00</span>-->
-																	<span class="text-white fs-5">Rp. {{number_format($produk->harga)}}</span>
+																	<span class="text-white fs-5">Rp. {{number_format($produk['harga'])}}</span>
 																</div>
 																<div class="cursor-pointer ms-auto">	<i class="bx bxs-star text-white"></i>
 																	<i class="bx bxs-star text-white"></i>
@@ -275,7 +271,7 @@
 															</div>
 															<div class="product-action mt-2">
 																<div class="d-grid gap-2">
-																	<a href="javascript:;" class="btn btn-light btn-ecomm">	<i class="bx bxs-cart-add"></i>Add to Cart</a>	<a href="javascript:;" class="btn btn-link btn-ecomm" data-bs-toggle="modal" data-bs-target="#QuickViewProduct{{$produk->id}}"><i class="bx bx-zoom-in"></i>Quick View</a>
+																	<a href="javascript:;" class="btn btn-light btn-ecomm">	<i class="bx bxs-cart-add"></i>Add to Cart</a>	<a href="javascript:;" class="btn btn-link btn-ecomm" data-bs-toggle="modal" data-bs-target="#QuickViewProduct{{$produk['id']}}"><i class="bx bx-zoom-in"></i>Quick View</a>
 																</div>
 															</div>
 														</div>
@@ -286,7 +282,7 @@
 
 
 	<!-- Modal -->
-	<div class="modal fade" id="QuickViewProduct{{$produk->id}}">
+	<div class="modal fade" id="QuickViewProduct{{$produk['id']}}">
 			<div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-xl-down">
 				<div class="modal-content bg-dark-4 rounded-0 border-0">
 					<div class="modal-body">
@@ -326,7 +322,7 @@
 							</div>
 							<div class="col-12 col-lg-6">
 								<div class="product-info-section p-3">
-									<h3 class="mt-3 mt-lg-0 mb-0">{{$produk->nama_barang}}</h3>
+									<h3 class="mt-3 mt-lg-0 mb-0">{{$produk['nama_barang']}}</h3>
 									<div class="product-rating d-flex align-items-center mt-2">
 										<div class="rates cursor-pointer font-13">	<i class="bx bxs-star text-warning"></i>
 											<i class="bx bxs-star text-warning"></i>
@@ -340,11 +336,11 @@
 									</div>
 									<div class="d-flex align-items-center mt-3 gap-2">
 										<!--<h5 class="mb-0 text-decoration-line-through text-light-3">$98.00</h5>-->
-										<h4 class="mb-0">Rp. {{number_format($produk->harga)}}</h4>
+										<h4 class="mb-0">Rp. {{number_format($produk['harga'])}}</h4>
 									</div>
 									<div class="mt-3">
 										<h6>Discription :</h6>
-										<p class="mb-0">{{$produk->deskripsi}}</p>
+										<p class="mb-0">{{$produk['deskripsi']}}</p>
 									</div>
 									<dl class="row mt-3">	<dt class="col-sm-3">Product id</dt>
 										<dd class="col-sm-9">#BHU5879</dd>	<dt class="col-sm-3">Delivery</dt>
@@ -397,19 +393,19 @@
 		
 
 
-
+		
 
 									@endforeach
 
-
+									
 										
 										</div>
 										<!--end row-->
 									</div>
+								
+									
 
-
-
-
+									
 								
 									<hr>
 									<nav class="d-flex justify-content-between" aria-label="Page navigation">
@@ -420,7 +416,7 @@
 										<ul class="pagination">
 											<li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span>
 											</li>
-											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">2</a>
+											<li class="page-item d-none d-sm-block"><a class="page-link" href="?search={{$search}}">2</a>
 											</li>
 											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">3</a>
 											</li>
@@ -443,4 +439,23 @@
 				<!--end shop area-->
 			</div>
 		</div>
+
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript">
+	   $(document).ready(function(){
+$('#sort').on('change', function() {
+  var value = $(this).val();
+  var search = "{{$search}}";
+//alert(search);
+  window.location='/?search='+search+'&sort='+value;
+});
+$('#tombol_pencarian').on('click', function() {
+	var search = document.getElementById("input_pencarian").value;
+  var sort = "{{$sort}}";
+
+  window.location='/?search='+search+'&sort='+sort;
+});
+	   });
+</script>
 @endsection

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
 class CategoryController extends Controller
 {
 
@@ -31,12 +33,26 @@ class CategoryController extends Controller
         $categori = Category::all();
         return response()->json(['data' => $categori]);
     }
-    public function kategori_pelanggan()
-    {
-      //  $categori = Category::all();
 
-        return view('pelanggan.home.index');
+
+    public function kategori_pelanggan(Request $request)
+    {
+        $search = $request->search;
+        $sort = $request->sort;
+        $page = $request->page;
+     
+        $api_url = Http::get('http://127.0.0.1:8000/api/produk/?page='.$page.'&search='.$search.'&sort='.$sort);
+        $response = $api_url->getBody()->getContents();
+       
+       $response = json_decode($response, true);
+ 
+       $response = $response['data'];
+       $link = $response['links'];
+        
+        return view('pelanggan.home.cek',['produk' => $response,'pag' => $link, 'sort' => $sort, 'search' => $search]);
     }
+
+    
     public function list_web()
     {
         return view('kategori.index');
