@@ -64,14 +64,14 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                       
-                        <a class="collapse-item" href="/kategori">Data Kategori</a>
-                        <a class="collapse-item" href="/subkategori">Data SubKategori</a>
-                        <a class="collapse-item" href="/slidder">Data Slidder</a>
-                        <a class="collapse-item" href="/produk">Data Produk</a>
-                        <a class="collapse-item" href="/pesanan">Data Pesanan</a>
-                        <a class="collapse-item" href="/pelanggan">Data Pelanggan</a>
-                        <a class="collapse-item" href="/testimoni">Data Testimoni</a>
-                        <a class="collapse-item" href="/ulasan">Data Ulasan</a>
+                        <a class="collapse-item" href="/admin/kategori">Data Kategori</a>
+                        <a class="collapse-item" href="/admin/subkategori">Data SubKategori</a>
+                        <a class="collapse-item" href="/admin/slidder">Data Slidder</a>
+                        <a class="collapse-item" href="/admin/produk">Data Produk</a>
+                        <a class="collapse-item" href="/admin/pesanan">Data Pesanan</a>
+                        <a class="collapse-item" href="/admin/pelanggan">Data Pelanggan</a>
+                        <a class="collapse-item" href="/admin/testimoni">Data Testimoni</a>
+                        <a class="collapse-item" href="/admin/ulasan">Data Ulasan</a>
 
                      
                     </div>
@@ -88,14 +88,14 @@
                 <div id="satu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                       
-                        <a class="collapse-item" href="/pesanan/baru">Pesanan Baru</a>
-                        <a class="collapse-item" href="/pesanan/dikonfirmasi">Pesanan Dikonfirmasi</a>
-                        <a class="collapse-item" href="/pesanan/dikemas">Pesanan Dikemas</a>
-                        <a class="collapse-item" href="/pesanan/dikirim">Pesanan Dikirim</a>
-                        <a class="collapse-item" href="/pesanan/diterima">Pesanan Diterima</a>
-                        <a class="collapse-item" href="/pesanan/selesai">Pesanan Selesai</a>
-                        <a class="collapse-item" href="/testimoni">Data Testimoni</a>
-                        <a class="collapse-item" href="/ulasan">Data Ulasan</a>
+                        <a class="collapse-item" href="/admin/pesanan/baru">Pesanan Baru</a>
+                        <a class="collapse-item" href="/admin/pesanan/dikonfirmasi">Pesanan Dikonfirmasi</a>
+                        <a class="collapse-item" href="/admin/pesanan/dikemas">Pesanan Dikemas</a>
+                        <a class="collapse-item" href="/admin/pesanan/dikirim">Pesanan Dikirim</a>
+                        <a class="collapse-item" href="/admin/pesanan/diterima">Pesanan Diterima</a>
+                        <a class="collapse-item" href="/admin/pesanan/selesai">Pesanan Selesai</a>
+                        <a class="collapse-item" href="/admin/testimoni">Data Testimoni</a>
+                        <a class="collapse-item" href="/admin/ulasan">Data Ulasan</a>
 
                      
                     </div>
