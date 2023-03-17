@@ -60,19 +60,31 @@ class SubcategoryController extends Controller
             'id_kategori' => 'required'
         ]);
         if($validator->fails()){
-            return response()->json($validator->errors(), 422);
+            // return response()->json($validator->errors(), 422);
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        }
+        else
+        {
+            $input = $request->all();
+            if($request->has('gambar'))
+            {
+                $gambar = $request->file('gambar');
+                $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
+                $gambar->move('uploads', $nama_gambar);
+                $input['gambar'] = $nama_gambar;
+            }
+            $kategori = Subcategory::create($input);
+            if($kategori)
+            {
+                return response()->json(['status'=> 1, 'msg'=>'Data berhasil ditambahkan', 'data'=>$kategori]);
+            }
+            else
+            {
+                return response()->json(['status'=>1, 'msg'=>'Data gagal ditambahkan']);
+            }
         }
 
-        $input = $request->all();
-        if($request->has('gambar'))
-        {
-            $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move('uploads', $nama_gambar);
-            $input['gambar'] = $nama_gambar;
-        }
-        $kategori = Subcategory::create($input);
-        return response()->json(['data' => $kategori]);
+       
     }
 
     /**
@@ -118,27 +130,36 @@ class SubcategoryController extends Controller
             'id_kategori' => 'required'
         ]);
         if($validator->fails()){
-            return response()->json($validator->errors(), 422);
-        }
-
-        $input = $request->all();
-        if($request->has('gambar'))
-        {
-            File::delete('uploads/' . $Subcategory->gambar);
-            $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move('uploads', $nama_gambar);
-            $input['gambar'] = $nama_gambar;
+          //  return response()->json($validator->errors(), 422);
+          return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
         }
         else
         {
-            unset($input['gambar']);
+            $input = $request->all();
+            if($request->has('gambar'))
+            {
+                File::delete('uploads/' . $Subcategory->gambar);
+                $gambar = $request->file('gambar');
+                $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
+                $gambar->move('uploads', $nama_gambar);
+                $input['gambar'] = $nama_gambar;
+            }
+            else
+            {
+                unset($input['gambar']);
+            }
+            $Subcategory->update($input);
+            if($Subcategory)
+            {
+                return response()->json(['status'=> 1, 'msg'=>'Data berhasil diedit', 'data'=>$Subcategory]);
+            }
+            else
+            {
+                return response()->json(['status'=>1, 'msg'=>'Data gagal ditambahkan','data'=>$Subcategory]);
+            }
         }
-        $Subcategory->update($input);
-        return response()->json([
-            'message'=> 'berhasil',
-            'data' => $Subcategory
-        ]);
+
+       
     }
 
     /**

@@ -16,13 +16,15 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
-    public function form_login_pelanggan()
+    public function form_login_pelanggan(Request $request)
     {
-        return view('pelanggan.login.login');
+        $search = $request->search;
+        return view('pelanggan.login.login', ['search' => $search]);
     }
-    public function form_daftar_pelanggan()
+    public function form_daftar_pelanggan(Request $request)
     {
-        return view('pelanggan.daftar.daftar');
+        $search = $request->search;
+        return view('pelanggan.daftar.daftar', ['search' =>$search]);
     }
     public function login(Request $request){
         // $credentials = request(['email', 'password']);

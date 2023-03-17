@@ -42,14 +42,15 @@ class CategoryController extends Controller
         $page = $request->page;
      
         $api_url = Http::get('http://127.0.0.1:8000/api/produk/?page='.$page.'&search='.$search.'&sort='.$sort);
-        $response = $api_url->getBody()->getContents();
+        $page= $api_url['data']['links'];
+        $response = $api_url->getBody();
        
        $response = json_decode($response, true);
  
        $response = $response['data'];
-       $link = $response['links'];
+      
         
-        return view('pelanggan.home.cek',['produk' => $response,'pag' => $link, 'sort' => $sort, 'search' => $search]);
+       return view('pelanggan.home.index',['produk' => $response, 'page' => $page, 'sort' => $sort, 'search' => $search]);
     }
 
     
@@ -84,19 +85,32 @@ class CategoryController extends Controller
             'gambar' => 'required'
         ]);
         if($validator->fails()){
-            return response()->json($validator->errors(), 423);
+          //  return response()->json($validator->errors(), 423);
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
+        }
+        else
+        {
+            $input = $request->all();
+            if($request->has('gambar'))
+            {
+                $gambar = $request->file('gambar');
+                $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
+                $gambar->move('uploads', $nama_gambar);
+                $input['gambar'] = $nama_gambar;
+           }
+            $kategori = Category::create($input);
+            if($kategori)
+            {
+                return response()->json(['status'=> 1, 'msg'=>'Data berhasil ditambahkan', 'data'=>$kategori]);
+            }
+            else
+            {
+                return response()->json(['status'=>1, 'msg'=>'Data gagal ditambahkan']);
+            }
+          //  return response()->json(['data' => $kategori]);
         }
 
-        $input = $request->all();
-        if($request->has('gambar'))
-        {
-            $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move('uploads', $nama_gambar);
-            $input['gambar'] = $nama_gambar;
-       }
-        $kategori = Category::create($input);
-        return response()->json(['data' => $kategori]);
+       
     }
 
     /**
@@ -142,9 +156,12 @@ class CategoryController extends Controller
         ]);
         
         if($validator->fails()){
-            return response()->json($validator->errors(), 422);
+            // return response()->json($validator->errors(), 422);
+            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
         }
-
+        else
+        {
+            
         $input = $request->all();
         if($request->has('gambar'))
         {
@@ -159,9 +176,16 @@ class CategoryController extends Controller
         {   unset($input['gambar']);    }
       
         $category->update($input);
-        return response()->json([
-            'data' => $category->deskripsi
-        ]);
+        if($category)
+        {
+            return response()->json(['status'=> 1, 'msg'=>'Data berhasil diedit', 'data'=>$category]);
+        }
+        else
+        {
+            return response()->json(['status'=>1, 'msg'=>'Data gagal ditambahkan','data'=>$category]);
+        }
+        }
+
     }
 
     /**
@@ -179,12 +203,12 @@ class CategoryController extends Controller
 
    //  $this->middleware('auth:api');
         //
-        $categori = Category::findOrFail($id);
-        File::delete('uploads/' . $categori->id);
-        $categori->delete();
-        return response()->json([
-                'message' => 'success'
-            ]);
+        // $categori = Category::findOrFail($id);
+        // File::delete('uploads/' . $categori->id);
+        // $categori->delete();
+        // return response()->json([
+        //         'message' => 'success'
+        //     ]);
        // $categori->delete();
         // return response()->json([
         //     'message' => $id
@@ -194,6 +218,20 @@ class CategoryController extends Controller
         // return response()->json([
         //     'message' => 'successs'
         // ]);
+
+
+          //
+          $categori = Category::findOrFail($id);
+          File::delete('uploads/' . $categori->id);
+          $categori->delete();
+          if($categori)
+          {
+              return response()->json(['status'=> 1, 'msg'=>'Data berhasil dihapus']);
+          }
+          else
+          {
+              return response()->json(['status'=>1, 'msg'=>'Data gagal dihapus']);
+          }
     }
 
 }

@@ -459,3 +459,8 @@ $('#tombol_pencarian').on('click', function() {
 	   });
 </script>
 @endsection
+@push('js')
+<script>
+
+</script>
+@endpush

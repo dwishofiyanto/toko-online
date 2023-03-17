@@ -1,26 +1,30 @@
 @extends('layout.app')
-@section('titile','Data Kategori')
+@section('titile','Data Pelanggan')
 @section('content')
 
 <div class="card shadow">
     <div class="card-header">
-        <h4 class="card-title">Data Kategori</h4>
+        <h4 class="card-title">Data Pelanggan</h4>
     </div>
 
 
 <div class="card-body">
-    <div class="d-flex justify-content-end mb-4">
-        <a href="#modal-form" id="tambah" class="btn btn-primary modal-tambah">Tambah Kategori</a>
-    </div>
+<div id="loading" class="d-flex justify-content-center">
+<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  <span class="visually-hidden">Loading...</span>
+</button>
+</div>
+
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama Kategori</th>
-                    <th>Deskripsi</th>
-                    <th>Gambar</th>
-                    <TH>Aksi</th>
+                    <th>Nama Pelanggan</th>
+                    <th>No Hp</th>
+                    <th>Alamat</th>
+                 
                 </tr>
             </thead>
             <tbody id="tampil_data"></tbody>
@@ -116,8 +120,19 @@ $(document).ready(function(){
       
       
   function tampil_data(){
+    const token = localStorage.getItem('token');
+   
     $.ajax({
-            url :'/api/kategori',
+            url :'/api/pelanggan',
+            headers :
+                {
+                  'Authorization' : 'Bearer '+ token
+                },
+                beforeSend: function()
+          {
+            $('tbody').append('<tr><td>load</td></tr>');
+            
+          },
             success : function({data})
             {
                 let row;
@@ -126,85 +141,16 @@ $(document).ready(function(){
                     
                    row += `<tr>
                         <td>${index+1}</td>
-                        <td>${val.nama_kategori}</td>
-                        <td>${val.deskripsi}</td>
-                        <td><img src="/uploads/${val.gambar}" width="150"></td>
-                        <td>
-                            <a id="edit" data-id="${val.id}" class="btn btn-warning edit_data">EDIT</a> 
-                            <a id="hapus"  data-id="${val.id}" class="btn btn-danger btn hapus" >HAPUS</a>
-                        </td></tr>`;
+                        <td>${val.nama_pelanggan}</td>
+                        <td>${val.no_hp}</td>
+                        <td>${val.alamat_lengkap}</td>
+                       </tr>`;
                 });
                 $('tbody').append(row);
             }
         });
 
   }
-//$('#edit').on('click',function(){
-  $("#tampil_data").on("click",".edit_data", function() {
-    //tampil_data();
-  $('#methodkirim').remove();
-  $('#modal-form').modal('show');
-  $('#methodnya').append('<input type="hidden" id="methodkirim" name="_method" value="PUT">'); //add input box
-  
-  const id = $(this).data('id');
- 
-  $.get('/api/kategori/'+id, function({data})
-  {
-    //console.log(data);
-    $('input[name="nama_kategori"]').val(data.nama_kategori);
-    $('input[name="deskripsi"]').val(data.deskripsi);
-  }
-   
-  );
-
-  
-  $('.form-kategori').submit(function(e)
-        {
-            e.preventDefault();
-          
-            const token = localStorage.getItem('token');
-            const frmdata = new FormData(this);
-           // console.log(id);
-          //alert('d');
-            $.ajax({
-                url :'/api/kategori/'+id,
-                type : 'POST',
-                data : frmdata,
-                cache : false,
-                contentType : false,
-                processData : false,
-                headers :
-                {
-                  'Authorization' : 'Bearer '+ token
-                },
-                beforeSend: function()
-          {
-            $(document).find('span.error-text').text('');
-          },
-          success : function(data)
-          {
-            if(data.status == 0)
-            {
-              $.each(data.error, function(prefix, val){
-                        $('span.'+prefix+'_error').text(val[0]);
-                    });
-         
-            }
-            else
-            {
-              alert(data.msg);
-              window.location.href = '/admin/kategori';
-            }
-          }
-            
-            });
-         
-        });
-
-
-});
-
-  
 
 
 });

@@ -56,7 +56,8 @@
     <label for="inputAddress2">Nama Subkategori
 
 </label>
-    <input type="text" class="form-control" name ="nama_subkategori" id="nama_subkategori" placeholder="Nama Kategori">
+    <input type="text" class="form-control" name ="nama_subkategori" id="nama_subkategori" placeholder="Nama Subkategori">
+    <span class="text-danger error-text nama_subkategori_error"></span>
   </div>
 
   <div class="form-group">
@@ -64,6 +65,7 @@
   <select name="id_kategori" id="id_kategori"  class="form-control" >
   <option>Pilih Kategori</option>
 </select>
+<span class="text-danger error-text id_kategori_error"></span>
     <!--<input type="text" class="form-control" name ="id_kategori" id="id_kategori" placeholder="id kategori">-->
   </div>
 
@@ -71,11 +73,13 @@
   <div class="form-group">
     <label for="inputAddress2">Deskripsi</label>
     <input type="text" class="form-control" name="deskripsi" id="deskripsi" placeholder="Deskripsi">
+    <span class="text-danger error-text deskripsi_error"></span>
   </div>
 
   <div class="form-group">
     <label for="inputAddress2">Gambar</label>
     <input type="file" class="form-control" name="gambar" id="gambar" placeholder="Gambar">
+    <span class="text-danger error-text gambar_error"></span>
   </div>
  
   <button type="submit" class="btn btn-primary">SIMPAN</button>
@@ -183,7 +187,7 @@ $(document).ready(function(){
   
   const id = $(this).data('id');
  
-  $.get('api/subkategori/'+id, function({data})
+  $.get('/api/subkategori/'+id, function({data})
   {
     //console.log(data);
     $('input[name="nama_subkategori"]').val(data.nama_subkategori);
@@ -212,20 +216,25 @@ $(document).ready(function(){
                 {
                   'Authorization' : 'Bearer '+ token
                 },
-                success : function(data)
-                {
-                  
-                   alert('Data berhasil di edit');
-                  
-                   window.location.href = '/subkategori';
-                
-                },
-                
-            error: function(data){
-              alert('Data berhasil gagal di edit');
-               window.location.href = '/subkategori';
-               
+                beforeSend: function()
+          {
+            $(document).find('span.error-text').text('');
+          },
+          success : function(data)
+          {
+            if(data.status == 0)
+            {
+              $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+         
             }
+            else
+            {
+              alert(data.msg);
+              window.location.href = '/admin/subkategori';
+            }
+          }
             
             });
          
@@ -265,19 +274,25 @@ $(document).on("click","#tambah",function() {
                 {
                   'Authorization' : 'Bearer '+ token
                 },
-                success : function(data)
-                {
-                   if(!data.success)
-                   {
-                    alert(data);
-                   }
-                   window.location.href = '/subkategori';
-                },
-                
-            error: function(data){
-             alert('error');
-             window.location.href = '/subkategori';
+                beforeSend: function()
+          {
+            $(document).find('span.error-text').text('');
+          },
+          success : function(data)
+          {
+            if(data.status == 0)
+            {
+              $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+         
             }
+            else
+            {
+              alert(data.msg);
+              window.location.href = '/admin/subkategori';
+            }
+          }
             });
          
         });

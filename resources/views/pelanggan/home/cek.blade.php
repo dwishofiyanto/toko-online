@@ -1,4 +1,9 @@
+
 @foreach($produk['data'] as $item)
-{{$item['nama_barang']}}
+{{$item['id']}}
 @endforeach
-{{$pag}}
+
+@foreach($produk['links'] as $p)
+{{$p}}
+@endforeach
+

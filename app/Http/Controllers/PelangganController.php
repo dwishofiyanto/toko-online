@@ -9,10 +9,15 @@ use Illuminate\Http\Request;
 class PelangganController extends Controller
 {
     
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api')->except(['index']);
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list_web']);
+        $this->middleware('auth:api')->only(['store','index','update','delete']);
+    }
+    public function list_web()
+    {
+        return view('admin.pelanggan');
+    }
     /**
      * Display a listing of the resource.
      *

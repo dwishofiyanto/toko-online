@@ -48,7 +48,7 @@
 													<hr/>
 												</div>
 												<div class="form-body">
-													<form class="row g-3" action="/api/auth/login_pelanggan" method="post" accept-charset="UTF-8">
+													<form class="row g-3" action="/pelanggan/login" method="post" accept-charset="UTF-8">
 													@csrf
 													
 														<div class="col-12">

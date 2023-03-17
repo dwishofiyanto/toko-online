@@ -143,7 +143,7 @@ $(document).ready(function()
     $('#modal-form').modal('show');
     $('#methodnya').append('<input type="hidden" id="methodkirim" name="_method" value="PUT">'); //add input box
     const id = $(this).data('id');
-    $.get('api/slidder/'+id, function({data})
+    $.get('/api/slidder/'+id, function({data})
     {
       //console.log(data);
       $('input[name="nama_slidder"]').val(data.nama_slidder);
@@ -183,7 +183,7 @@ $(document).ready(function()
             else
             {
               alert(data.msg);
-              window.location.href = '/slidder';
+              window.location.href = '/admin/slidder';
             }
         }
       });
@@ -229,7 +229,7 @@ $(document).ready(function()
             else
             {
               alert(data.msg);
-              window.location.href = '/slidder';
+              window.location.href = '/admin/slidder';
             }
            // console.log(data)
            // alert('Data berhasil disimpan');

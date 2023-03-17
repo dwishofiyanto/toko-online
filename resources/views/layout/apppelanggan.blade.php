@@ -483,6 +483,9 @@
 	<!--app JS-->
 	<script src="{{ asset('assets/js/app.js') }}"></script>
 	<script src="{{ asset('assets/js/show-hide-password.js')}}"></script>
+
+		@stack('js');
+	
 </body>
 
 

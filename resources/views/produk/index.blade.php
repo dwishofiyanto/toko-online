@@ -165,7 +165,7 @@ $(document).ready(function()
         success : function(data){
           //console.log(data.msg)
          alert(data.msg);
-             window.location.href = '/produk';
+             window.location.href = '/admin/produk';
         }
       });
     }
@@ -174,32 +174,35 @@ $(document).ready(function()
       
   function tampil_data(){
     $.ajax({
-      url :'/api/produk',
-      success : function({data})
+    url :'/api/produk',
+    success : function({data})
+    {
+      let row;
+      data.map(function(val, index)
       {
-        let row;
-        data.map(function(val, index)
-        {
-          row += `<tr>
-                  <td>${index+1}</td>
-                  <td>${val.categories.nama_kategori}</td>
-                  <td>${val.subcategories.nama_subkategori}</td>
-                  <td>${val.nama_barang}</td>
-                  <td>${val.harga}</td>
-                  <td>${val.diskon}</td>
-                  <td>${val.bahan}</td>
-                  <td>${val.sku}</td>
-                  <td>${val.ukuran}</td>
-                  <td>${val.warna}</td>
-                  <td><img src="/uploads/${val.gambar}" width="150"></td>
-                  <td>
-                    <a id="edit" data-id="${val.id}" class="btn btn-warning edit_data">EDIT</a> 
-                    <a id="hapus"  data-id="${val.id}" class="btn btn-danger hapus" >HAPUS</a>
-                  </td></tr>`;
-        });
-        $('tbody').append(row);
-      }
-    });
+        row += `<tr>
+                <td>${index+1}</td>
+                <td>${val.categories.nama_kategori}</td>
+                <td>${val.subcategories.nama_subkategori}</td>
+                <td>${val.nama_barang}</td>
+                <td>${val.harga}</td>
+                <td>${val.diskon}</td>
+                <td>${val.bahan}</td>
+                <td>${val.sku}</td>
+                <td>${val.ukuran}</td>
+                <td>${val.warna}</td>
+                <td><img src="/uploads/${val.gambar}" width="150"></td>
+                <td>
+                  <a id="edit" data-id="${val.id}" class="btn btn-warning edit_data">EDIT</a> 
+                  <a id="hapus"  data-id="${val.id}" class="btn btn-danger hapus" >HAPUS</a>
+                </td></tr>`;
+      });
+     $('tbody').append(row);
+    }
+  });
+
+
+   
   }
 
 
@@ -209,7 +212,7 @@ $(document).ready(function()
     $('#modal-form').modal('show');
     $('#methodnya').append('<input type="text" id="methodkirim" name="_method" value="PUT">'); //add input box
     const id = $(this).data('id');
-    $.get('api/produk/'+id, function({data})
+    $.get('/api/produk/'+id, function({data})
     {
       alert(data.ukuran)
       $('input[name="id_kategori"]').val(data.id_kategori);
@@ -255,7 +258,7 @@ $(document).ready(function()
             else
             {
               alert(data.msg);
-              window.location.href = '/produk';
+              window.location.href = '/admin/produk';
             }
         
         },
@@ -307,7 +310,7 @@ $(document).ready(function()
             else
             {
               alert(data.msg);
-              window.location.href = '/produk';
+              window.location.href = '/admin/produk';
             }
           }
         });

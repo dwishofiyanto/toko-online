@@ -39,8 +39,8 @@ class ProductController extends Controller
         {
             $query_product->where('nama_barang', 'LIKE', '%'.$request->search.'%');
         }
-        $show = $request->show ?? 2;
-        $product = $query_product->paginate($show); 
+        $show = $request->show ?? 1;
+        $product = $query_product->get(); 
         return response()->json(['data' =>$product]);
         
     }
