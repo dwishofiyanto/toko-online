@@ -51,7 +51,7 @@ Route::group([
         'produk'=>ProductController::class]);
     
     Route::get('cek', [CategoryController::class,'edit']);
-   // Route::get('pesanan/baru', [PesananController::class,'baru']);
+    Route::get('pesanan/baru', [PesananController::class,'baru']);
     Route::get('pesanan/dikonfirmasi', [PesananController::class,'dikonfirmasi']);
     Route::get('pesanan/dikemas', [PesananController::class,'dikemas']);
     Route::get('pesanan/dikirim', [PesananController::class,'dikirim']);

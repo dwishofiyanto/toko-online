@@ -72,6 +72,7 @@ Route::get('users2/', function (\Illuminate\Http\Request $request) {
 });
 
 //Route::get('/', function () {return view('pelanggan.home.index');});
+Route::get('/load', function () {return view('load');});
 Route::get('/keranjang', function () {return view('pelanggan.cart.cart');});
 
 Route::get('/',[HomeController::class, 'home']);

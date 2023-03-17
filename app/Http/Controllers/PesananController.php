@@ -158,9 +158,8 @@ class PesananController extends Controller
     public function baru()
     {
         $pesanan = Pesanan::with('pelanggan')->where('status', 'Baru')->get();
-        return response()->json([
-            'data' => $pesanan
-        ]);
+        return response()->json(['data' => $pesanan]);
+       
     }
     public function dikonfirmasi()
     {

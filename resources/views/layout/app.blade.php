@@ -107,7 +107,7 @@
             <hr class="sidebar-divider">
                   <!-- Nav Item - Dashboard -->
                   <li class="nav-item">
-                <a class="nav-link" href="/laporan">
+                <a class="nav-link" href="/admin/laporan">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Laporan</span></a>
             </li>
@@ -115,7 +115,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
             <li class="nav-item">
-                <a class="nav-link" href="/pembayaran">
+                <a class="nav-link" href="/admin/pembayaran">
                     <i class="fas fa-fw fa-credit-card"></i>
                     <span>Pembayaran</span></a>
             </li>
