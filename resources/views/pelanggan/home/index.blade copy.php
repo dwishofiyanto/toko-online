@@ -35,8 +35,8 @@
 									<div class="card rounded-0 w-100">
 										<div class="card-body">
 											<div class="align-items-center d-flex d-xl-none">
-												<h6 class="text-uppercase mb-0">Filter</h6>
-												<div class="btn-mobile-filter-close btn-close ms-auto cursor-pointer"></div>
+		<h6 class="text-uppercase mb-0">Filter</h6>
+									<div class="btn-mobile-filter-close btn-close ms-auto cursor-pointer"></div>
 											</div>
 											<hr class="d-flex d-xl-none" />
 											<div class="product-categories">
@@ -224,88 +224,17 @@
 										</div>
 										<div>	<a href="shop-list-left-sidebar.html" class="btn btn-light rounded-0"><i class='bx bx-list-ul me-0'></i></a>
 										</div> -->
-						</div>
+									</div>
 
 									
 									<div class="product-grid">
 										<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-<!--ISI PRODUK-->
-<div id="isi_produk">
 
-</div>
-
-									
-										
-										</div>
-										<!--end row-->
-									</div>
 								
 									
-
-									
+									@foreach($produk['data'] as $produk)
 								
-									<hr>
-									<nav class="d-flex justify-content-between" aria-label="Page navigation">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="javascript:;"><i class='bx bx-chevron-left'></i> Prev</a>
-											</li>
-										</ul>
-										<ul class="pagination">
-											<li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span>
-											</li>
-											<li class="page-item d-none d-sm-block"><a class="page-link" href="?search={{$search}}">2</a>
-											</li>
-											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">3</a>
-											</li>
-											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">4</a>
-											</li>
-											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">5</a>
-											</li>
-										</ul>
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="javascript:;" aria-label="Next">Next <i class='bx bx-chevron-right'></i></a>
-											</li>
-										</ul>
-									</nav>
-								</div>
-							</div>
-						</div>
-						<!--end row-->
-					</div>
-				</section>
-				<!--end shop area-->
-			</div>
-		</div>
-
-
-
-@endsection
-@push('js')
-
-<script>
-
-$(document).ready(function(){
-	tampil_data();
-     
-  function tampil_data(){
-    $.ajax({
-    url :'/api/produk',
-    success : function({data})
-    {
-      if(data.length == 0)
-              {
-                $('.auto-load').hide();
-                $('tbody').append(`<p class="fw-bolder">Tidak ada data</p>`);
-              }
-              else
-              {
-      let row;
-      data.map(function(val, index)
-      {
-		console.log(val.nama_barang);
-        row += `
-
-		<div class="col">
+											<div class="col">
 												<div class="card rounded-0 product-card">
 													<div class="card-header bg-transparent border-bottom-0">
 														<div class="d-flex align-items-center justify-content-end gap-3">
@@ -326,12 +255,12 @@ $(document).ready(function(){
 																<p class="product-catergory font-13 mb-1">{{$kategori->nama_kategori}}</p>
 															</a>
 															<a href="javascript:;">
-																<h6 class="product-name mb-2">${val.nama_barang}</h6>
+																<h6 class="product-name mb-2">{{$produk['nama_barang']}}</h6>
 															</a>
 															<div class="d-flex align-items-center">
 																<div class="mb-1 product-price">	
 																	<!--<span class="me-1 text-decoration-line-through">$99.00</span>-->
-																	<span class="text-white fs-5">Rp. ${val.harga}</span>
+																	<span class="text-white fs-5">Rp. {{number_format($produk['harga'])}}</span>
 																</div>
 																<div class="cursor-pointer ms-auto">	<i class="bx bxs-star text-white"></i>
 																	<i class="bx bxs-star text-white"></i>
@@ -342,7 +271,7 @@ $(document).ready(function(){
 															</div>
 															<div class="product-action mt-2">
 																<div class="d-grid gap-2">
-																	<a href="javascript:;" class="btn btn-light btn-ecomm">	<i class="bx bxs-cart-add"></i>Add to Cart</a>	<a href="javascript:;" class="btn btn-link btn-ecomm" data-bs-toggle="modal" data-bs-target="#QuickView${val.id}"><i class="bx bx-zoom-in"></i>Quick View</a>
+																	<a href="javascript:;" class="btn btn-light btn-ecomm">	<i class="bx bxs-cart-add"></i>Add to Cart</a>	<a href="javascript:;" class="btn btn-link btn-ecomm" data-bs-toggle="modal" data-bs-target="#QuickViewProduct{{$produk['id']}}"><i class="bx bx-zoom-in"></i>Quick View</a>
 																</div>
 															</div>
 														</div>
@@ -353,7 +282,7 @@ $(document).ready(function(){
 
 
 	<!-- Modal -->
-	<div class="modal fade" id="QuickView${val.id}">
+	<div class="modal fade" id="QuickViewProduct{{$produk['id']}}">
 			<div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-xl-down">
 				<div class="modal-content bg-dark-4 rounded-0 border-0">
 					<div class="modal-body">
@@ -393,7 +322,7 @@ $(document).ready(function(){
 							</div>
 							<div class="col-12 col-lg-6">
 								<div class="product-info-section p-3">
-									<h3 class="mt-3 mt-lg-0 mb-0">${val.nama_barang}</h3>
+									<h3 class="mt-3 mt-lg-0 mb-0">{{$produk['nama_barang']}}</h3>
 									<div class="product-rating d-flex align-items-center mt-2">
 										<div class="rates cursor-pointer font-13">	<i class="bx bxs-star text-warning"></i>
 											<i class="bx bxs-star text-warning"></i>
@@ -407,11 +336,11 @@ $(document).ready(function(){
 									</div>
 									<div class="d-flex align-items-center mt-3 gap-2">
 										<!--<h5 class="mb-0 text-decoration-line-through text-light-3">$98.00</h5>-->
-										<h4 class="mb-0">Rp.${val.harga}</h4>
+										<h4 class="mb-0">Rp. {{number_format($produk['harga'])}}</h4>
 									</div>
 									<div class="mt-3">
 										<h6>Discription :</h6>
-										<p class="mb-0">${val.deskripsi}</p>
+										<p class="mb-0">{{$produk['deskripsi']}}</p>
 									</div>
 									<dl class="row mt-3">	<dt class="col-sm-3">Product id</dt>
 										<dd class="col-sm-9">#BHU5879</dd>	<dt class="col-sm-3">Delivery</dt>
@@ -464,20 +393,120 @@ $(document).ready(function(){
 		
 
 
-		`;
-      });
-    //  $('.auto-load').hide();
-      $('#isi_produk').append(row);
-    }}
-  });
+		
 
+									@endforeach
 
-   
-  }
+									
+										
+										</div>
+										<!--end row-->
+									</div>
+								
+									
 
-  
+									
+								
+									<hr>
+									<nav class="d-flex justify-content-between" aria-label="Page navigation">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="javascript:;"><i class='bx bx-chevron-left'></i> Prev</a>
+											</li>
+										</ul>
+										<ul class="pagination">
+											<li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span>
+											</li>
+											<li class="page-item d-none d-sm-block"><a class="page-link" href="?search={{$search}}">2</a>
+											</li>
+											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">3</a>
+											</li>
+											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">4</a>
+											</li>
+											<li class="page-item d-none d-sm-block"><a class="page-link" href="javascript:;">5</a>
+											</li>
+										</ul>
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="javascript:;" aria-label="Next">Next <i class='bx bx-chevron-right'></i></a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+						<!--end row-->
+					</div>
+				</section>
+				<!--end shop area-->
+			</div>
+		</div>
+
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript">
+	   $(document).ready(function(){
+$('#sort').on('change', function() {
+  var value = $(this).val();
+  var search = "{{$search}}";
+//alert(search);
+  window.location='/?search='+search+'&sort='+value;
 });
+$('#tombol_pencarian').on('click', function() {
+	var search = document.getElementById("input_pencarian").value;
+  var sort = "{{$sort}}";
 
+  window.location='/?search='+search+'&sort='+sort;
+});
+	   });
 </script>
+@endsection
+@push('js')
+<script>
 
+$(document).ready(function(){
+  tampil_data();
+     
+  function tampil_data(){
+    $.ajax({
+            url :'/api/kategori',
+            beforeSend: function()
+          {
+            $('.auto-load').show();
+            
+          },
+            success : function({data})
+            {
+              if(data.length == 0)
+              {
+                $('.auto-load').hide();
+                $('tbody').append(`<p class="fw-bolder">Tidak ada data</p>`);
+              }
+              else
+              {
+       
+                let row;
+                 data.map(function(val, index)
+                {
+                    
+                   row += `<tr>
+                        <td>${index+1}</td>
+                        <td>${val.nama_kategori}</td>
+                        <td>${val.deskripsi}</td>
+                        <td><img src="/uploads/${val.gambar}" width="150"></td>
+                        <td>
+                            <a id="edit" data-id="${val.id}" class="btn btn-warning edit_data">EDIT</a> 
+                            <a id="hapus"  data-id="${val.id}" class="btn btn-danger btn hapus" >HAPUS</a>
+                        </td></tr>`;
+                });
+                $('.auto-load').hide();
+                $('thead').append(`<tr><th>No</th><th>Nama Kategori</th><th>Deskripsi</th><th>Gambar</th><TH>Aksi</th></tr>`);
+                $('tbody').append(row);
+            }
+          }
+          
+          
+        });
+
+  }
+});
+</script>
 @endpush

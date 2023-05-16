@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 class CategoryController extends Controller
 {
-
     public function __construct()
     {
-    // $this->middleware('auth:api')->except(['index']);
-    $this->middleware('auth')->only(['list_web']);
-    $this->middleware('auth:api')->only(['store','update','delete']);
-      
+        // $this->middleware('auth:api')->except(['index']);
+        $this->middleware("auth")->only(["list_web"]);
+        $this->middleware("auth:api")->only(["store", "update", "delete"]);
     }
     /**
      * Display a listing of the resource.
@@ -26,37 +24,45 @@ class CategoryController extends Controller
      */
     public function index()
     {
-      
         //
         // $id=$this->get('id');
         // $id
         $categori = Category::all();
-        return response()->json(['data' => $categori]);
+        return response()->json(["data" => $categori]);
     }
-
 
     public function kategori_pelanggan(Request $request)
     {
         $search = $request->search;
         $sort = $request->sort;
         $page = $request->page;
-     
-        $api_url = Http::get('http://127.0.0.1:8000/api/produk/?page='.$page.'&search='.$search.'&sort='.$sort);
-        $page= $api_url['data']['links'];
+
+        $api_url = Http::get(
+            "/api/produk/?page=" .
+                $page .
+                "&search=" .
+                $search .
+                "&sort=" .
+                $sort
+        );
+        $page = $api_url["data"]["links"];
         $response = $api_url->getBody();
-       
-       $response = json_decode($response, true);
- 
-       $response = $response['data'];
-      
-        
-       return view('pelanggan.home.index',['produk' => $response, 'page' => $page, 'sort' => $sort, 'search' => $search]);
+
+        $response = json_decode($response, true);
+
+        $response = $response["data"];
+
+        return view("pelanggan.home.index", [
+            "produk" => $response,
+            "page" => $page,
+            "sort" => $sort,
+            "search" => $search,
+        ]);
     }
 
-    
     public function list_web()
     {
-        return view('kategori.index');
+        return view("kategori.index");
     }
     /**
      * Show the form for creating a new resource.
@@ -76,41 +82,47 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-       // $this->middleware('auth:api');
+        // $this->middleware('auth:api');
         //
         //dd($request->all());
         $validator = Validator::make($request->all(), [
-            'nama_kategori' => 'required',
-            'deskripsi' => 'required',
-            'gambar' => 'required'
+            "nama_kategori" => "required",
+            "deskripsi" => "required",
+            "gambar" => "required",
         ]);
-        if($validator->fails()){
-          //  return response()->json($validator->errors(), 423);
-            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
-        }
-        else
-        {
+        if ($validator->fails()) {
+            //  return response()->json($validator->errors(), 423);
+            return response()->json([
+                "status" => 0,
+                "error" => $validator->errors()->toArray(),
+            ]);
+        } else {
             $input = $request->all();
-            if($request->has('gambar'))
-            {
-                $gambar = $request->file('gambar');
-                $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
-                $gambar->move('uploads', $nama_gambar);
-                $input['gambar'] = $nama_gambar;
-           }
+            if ($request->has("gambar")) {
+                $gambar = $request->file("gambar");
+                $nama_gambar =
+                    time() .
+                    rand(1, 9) .
+                    "." .
+                    $gambar->getClientOriginalExtension();
+                $gambar->move("uploads", $nama_gambar);
+                $input["gambar"] = $nama_gambar;
+            }
             $kategori = Category::create($input);
-            if($kategori)
-            {
-                return response()->json(['status'=> 1, 'msg'=>'Data berhasil ditambahkan', 'data'=>$kategori]);
+            if ($kategori) {
+                return response()->json([
+                    "status" => 1,
+                    "msg" => "Data berhasil ditambahkan",
+                    "data" => $kategori,
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 1,
+                    "msg" => "Data gagal ditambahkan",
+                ]);
             }
-            else
-            {
-                return response()->json(['status'=>1, 'msg'=>'Data gagal ditambahkan']);
-            }
-          //  return response()->json(['data' => $kategori]);
+            //  return response()->json(['data' => $kategori]);
         }
-
-       
     }
 
     /**
@@ -123,7 +135,7 @@ class CategoryController extends Controller
     {
         //
         $categori = Category::findOrFail($category);
-        return response()->json(['data' => $categori]);
+        return response()->json(["data" => $categori]);
     }
 
     /**
@@ -135,7 +147,6 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
-       
     }
 
     /**
@@ -148,44 +159,50 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
-       // dd($categori);
+        // dd($categori);
         $validator = Validator::make($request->all(), [
-            'nama_kategori' => 'required',
-            'deskripsi' => 'required',
-            'gambar' => 'required|image|mimes:jpg,png,jpeg'
+            "nama_kategori" => "required",
+            "deskripsi" => "required",
+            "gambar" => "required|image|mimes:jpg,png,jpeg",
         ]);
-        
-        if($validator->fails()){
-            // return response()->json($validator->errors(), 422);
-            return response()->json(['status'=>0, 'error'=>$validator->errors()->toArray()]);
-        }
-        else
-        {
-            
-        $input = $request->all();
-        if($request->has('gambar'))
-        {
-          
-            File::delete('uploads/' . $category->gambar);
-            $gambar = $request->file('gambar');
-            $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move('uploads', $nama_gambar);
-            $input['gambar'] = $nama_gambar;
-        }
-        else
-        {   unset($input['gambar']);    }
-      
-        $category->update($input);
-        if($category)
-        {
-            return response()->json(['status'=> 1, 'msg'=>'Data berhasil diedit', 'data'=>$category]);
-        }
-        else
-        {
-            return response()->json(['status'=>1, 'msg'=>'Data gagal ditambahkan','data'=>$category]);
-        }
-        }
 
+        if ($validator->fails()) {
+            // return response()->json($validator->errors(), 422);
+            return response()->json([
+                "status" => 0,
+                "error" => $validator->errors()->toArray(),
+            ]);
+        } else {
+            $input = $request->all();
+            if ($request->has("gambar")) {
+                File::delete("uploads/" . $category->gambar);
+                $gambar = $request->file("gambar");
+                $nama_gambar =
+                    time() .
+                    rand(1, 9) .
+                    "." .
+                    $gambar->getClientOriginalExtension();
+                $gambar->move("uploads", $nama_gambar);
+                $input["gambar"] = $nama_gambar;
+            } else {
+                unset($input["gambar"]);
+            }
+
+            $category->update($input);
+            if ($category) {
+                return response()->json([
+                    "status" => 1,
+                    "msg" => "Data berhasil diedit",
+                    "data" => $category,
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 1,
+                    "msg" => "Data gagal ditambahkan",
+                    "data" => $category,
+                ]);
+            }
+        }
     }
 
     /**
@@ -196,12 +213,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-       
-         //$this->middleware('auth:api')->except(['index']);
-          
-       
+        //$this->middleware('auth:api')->except(['index']);
 
-   //  $this->middleware('auth:api');
+        //  $this->middleware('auth:api');
         //
         // $categori = Category::findOrFail($id);
         // File::delete('uploads/' . $categori->id);
@@ -209,7 +223,7 @@ class CategoryController extends Controller
         // return response()->json([
         //         'message' => 'success'
         //     ]);
-       // $categori->delete();
+        // $categori->delete();
         // return response()->json([
         //     'message' => $id
         // ]);
@@ -219,19 +233,20 @@ class CategoryController extends Controller
         //     'message' => 'successs'
         // ]);
 
-
-          //
-          $categori = Category::findOrFail($id);
-          File::delete('uploads/' . $categori->id);
-          $categori->delete();
-          if($categori)
-          {
-              return response()->json(['status'=> 1, 'msg'=>'Data berhasil dihapus']);
-          }
-          else
-          {
-              return response()->json(['status'=>1, 'msg'=>'Data gagal dihapus']);
-          }
+        //
+        $categori = Category::findOrFail($id);
+        File::delete("uploads/" . $categori->id);
+        $categori->delete();
+        if ($categori) {
+            return response()->json([
+                "status" => 1,
+                "msg" => "Data berhasil dihapus",
+            ]);
+        } else {
+            return response()->json([
+                "status" => 1,
+                "msg" => "Data gagal dihapus",
+            ]);
+        }
     }
-
 }

@@ -94,7 +94,7 @@
                             <div class="rates cursor-pointer font-13">	<i class="bx bxs-star text-warning"></i>
                                 <i class="bx bxs-star text-warning"></i>
                                 <i class="bx bxs-star text-warning"></i>
-                                <i class="bx bxs-star text-warning"></i>
+    <i class="bx bxs-star text-warning"></i>
                                 <i class="bx bxs-star text-light-4"></i>
                             </div>
                             <div class="ms-1">

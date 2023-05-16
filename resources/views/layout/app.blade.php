@@ -12,11 +12,11 @@
     <title>@yield('title')</title>
 
     <!-- Custom fonts for this template-->
-    <link href="/sb2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="{{asset('/sb2/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/sb2/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="{{asset('/sb2/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
 </head>
 
@@ -62,14 +62,14 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                       
-                        <a class="collapse-item" href="/admin/kategori">Data Kategori</a>
-                        <a class="collapse-item" href="/admin/subkategori">Data SubKategori</a>
-                        <a class="collapse-item" href="/admin/slidder">Data Slidder</a>
-                        <a class="collapse-item" href="/admin/produk">Data Produk</a>
-                        <a class="collapse-item" href="/admin/pesanan">Data Pesanan</a>
-                        <a class="collapse-item" href="/admin/pelanggan">Data Pelanggan</a>
-                        <a class="collapse-item" href="/admin/testimoni">Data Testimoni</a>
-                        <a class="collapse-item" href="/admin/ulasan">Data Ulasan</a>
+                        <a class="collapse-item" href="{{asset('/admin/kategori')}}">Data Kategori</a>
+                        <a class="collapse-item" href="{{asset('/admin/subkategori')}}">Data SubKategori</a>
+                        <a class="collapse-item" href="{{asset('/admin/slidder')}}">Data Slidder</a>
+                        <a class="collapse-item" href="{{asset('/admin/produk')}}">Data Produk</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan')}}">Data Pesanan</a>
+                        <a class="collapse-item" href="{{asset('/admin/pelanggan')}}">Data Pelanggan</a>
+                        <a class="collapse-item" href="{{asset('/admin/testimoni')}}">Data Testimoni</a>
+                        <a class="collapse-item" href="{{asset('/admin/ulasan')}}">Data Ulasan</a>
 
                      
                     </div>
@@ -86,14 +86,14 @@
                 <div id="satu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                       
-                        <a class="collapse-item" href="/admin/pesanan/baru">Pesanan Baru</a>
-                        <a class="collapse-item" href="/admin/pesanan/dikonfirmasi">Pesanan Dikonfirmasi</a>
-                        <a class="collapse-item" href="/admin/pesanan/dikemas">Pesanan Dikemas</a>
-                        <a class="collapse-item" href="/admin/pesanan/dikirim">Pesanan Dikirim</a>
-                        <a class="collapse-item" href="/admin/pesanan/diterima">Pesanan Diterima</a>
-                        <a class="collapse-item" href="/admin/pesanan/selesai">Pesanan Selesai</a>
-                        <a class="collapse-item" href="/admin/testimoni">Data Testimoni</a>
-                        <a class="collapse-item" href="/admin/ulasan">Data Ulasan</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan/baru')}}">Pesanan Baru</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan/dikonfirmasi')}}">Pesanan Dikonfirmasi</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan/dikemas')}}">Pesanan Dikemas</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan/dikirim')}}">Pesanan Dikirim</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan/diterima')}}">Pesanan Diterima</a>
+                        <a class="collapse-item" href="{{asset('/admin/pesanan/selesai')}}">Pesanan Selesai</a>
+                        <!-- <a class="collapse-item" href="{{asset('/admin/testimoni')}}">Data Testimoni</a>
+                        <a class="collapse-item" href="{{asset('/admin/ulasan')}}">Data Ulasan</a> -->
 
                      
                     </div>
@@ -107,7 +107,7 @@
             <hr class="sidebar-divider">
                   <!-- Nav Item - Dashboard -->
                   <li class="nav-item">
-                <a class="nav-link" href="/admin/laporan">
+                <a class="nav-link" href="{{asset('/admin/laporan')}}">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Laporan</span></a>
             </li>
@@ -174,7 +174,7 @@
                                 aria-labelledby="userDropdown">
                                 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{asset('/logout')}}" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -241,14 +241,14 @@
 
     <!-- Bootstrap core JavaScript-->
     
-    <script src="/sb2/vendor/jquery/jquery.min.js"></script>
-    <script src="/sb2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('/sb2/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('/sb2/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="/sb2/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="{{asset('/sb2/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="/sb2/js/sb-admin-2.min.js"></script>
+    <script src="{{asset('/sb2/js/sb-admin-2.min.js')}}"></script>
     <script>
         function getCookie(cname) {
   let name = cname + "=";

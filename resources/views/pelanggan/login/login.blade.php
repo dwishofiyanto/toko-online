@@ -48,18 +48,21 @@
 													<hr/>
 												</div>
 												<div class="form-body">
-													<form class="row g-3" action="/pelanggan/login" method="post" accept-charset="UTF-8">
+													<form class="row g-3 form-kategori" action="#">
 													@csrf
 													
 														<div class="col-12">
 															<label for="inputEmailAddress" class="form-label">Email Address</label>
 															<input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
+															<span class="text-danger error-text email_error"></span>
 														</div>
 														<div class="col-12">
 															<label for="inputChoosePassword" class="form-label">Enter Password</label>
 															<div class="input-group" id="show_hide_password">
 																<input type="password" class="form-control border-end-0" name="password" id="password" value="12345678" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+																
 															</div>
+															<span class="text-danger error-text password_error"></span>
 														</div>
 														<div class="col-md-6">
 															<div class="form-check form-switch">
@@ -71,7 +74,9 @@
 														</div>
 														<div class="col-12">
 															<div class="d-grid">
-																<button type="submit" class="btn btn-light"><i class="bx bxs-lock-open"></i>Sign in</button>
+																
+															<button id="tambah" class="btn btn-light"><i class='bx bx-user'></i>Sign up</button>
+															<button  id="tambah" class="btn btn-light"><i class="bx bxs-lock-open"></i>Sign in</button>
 															</div>
 														</div>
 													</form>
@@ -91,3 +96,125 @@
 	
 		
 @endsection
+
+
+
+
+
+
+@push('js')
+<script>
+//     function setCookie(cname, cvalue, exdays) {
+//   const d = new Date();
+//   d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//   let expires = "expires="+ d.toUTCString();
+//   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
+
+// $(document).on("click","#tambah",function() {
+	
+
+  $('.form-kategori').submit(function(e)
+        {
+            e.preventDefault();
+          
+            // const token = localStorage.getItem('token');
+            const frmdata = new FormData(this);
+          
+            $.ajax({
+                url :'/api/auth/login_pelanggan',
+                type : 'POST',
+                data : frmdata,
+                cache : false,
+                contentType : false,
+                processData : false,
+               
+                beforeSend: function()
+          {
+            $(document).find('span.error-text').text('');
+          },
+          success : function(data)
+          {
+			
+            if(data.status == 0)
+            {
+              $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+         
+            }
+			else if(data.status == 1)
+			{
+				alert(data.msg);
+			}
+			else if(data.status == 2)
+			{
+				alert(data.msg);
+				window.location.href = '/';
+			}
+          }
+          });
+         
+        });
+
+
+// });
+    
+   
+    
+       
+</script>
+@endpush
+
+
+<!-- <script>
+$('.form-login').submit(function(e)
+        {
+            e.preventDefault();
+          
+            // const token = localStorage.getItem('token');
+            const frmdata = new FormData(this);
+          
+            $.ajax({
+                url :'/api/auth/login_pelanggan',
+                type : 'POST',
+                data : frmdata,
+                cache : false,
+                contentType : false,
+                processData : false,
+               
+                beforeSend: function()
+          {
+            $(document).find('span.error-text').text('');
+          },
+          success : function(data)
+          {
+			console.log(data);
+            if(data.status == 0)
+            {
+              $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+						
+                    });
+         
+            }
+			else if(data.status == 1)
+			{
+				alert(data.msg);
+			}
+			else if(data.status == 2)
+			{
+				alert(data.msg);
+				window.location.href = '/;
+			}
+        //     else
+        //     {
+        //      alert(data.msg);
+        //    window.location.href = '/pelanggan/login';
+        //     }
+          }
+          });
+         
+        });
+	</script> -->
+		

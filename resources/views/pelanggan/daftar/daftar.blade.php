@@ -48,7 +48,10 @@
 													<hr/>
 												</div>
 												<div class="form-body">
-                                                <form class="row g-3" action="/api/auth/daftar_pelanggan" method="post"  accept-charset="UTF-8">
+
+                                                <form class="row g-3 form-kategori"  method="post" action="#" >
+													
+                                                <!-- <form class="row g-3" action="/api/auth/daftar_pelanggan" method="post"  accept-charset="UTF-8"> -->
     @csrf
 														<!-- <div class="col-sm-6">
 															<label for="inputFirstName" class="form-label">First Name</label>
@@ -61,15 +64,18 @@
 														<div class="col-12">
 															<label for="inputEmailAddress" class="form-label">Nama</label>
 															<input type="text" class="form-control" name="nama_pelanggan" id="nama_pelanggan">
+															<span class="text-danger error-text nama_pelanggan_error"></span>
 														</div> 
                                                         <div class="col-12">
 															<label for="inputEmailAddress" class="form-label">Email Address</label>
 															<input type="email" class="form-control" name="email" id="email" placeholder="example@user.com">
+															<span class="text-danger error-text email_error"></span>
 														</div>
 														<div class="col-12">
 															<label for="inputChoosePassword" class="form-label">Password</label>
 															<div class="input-group" id="show_hide_password">
 																<input type="password" class="form-control border-end-0" name="password" id="password" value="12345678" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+																<span class="text-danger error-text password_error"></span>
 															</div>
 														</div>
 														<!-- <div class="col-12">
@@ -89,7 +95,8 @@
 														</div>
 														<div class="col-12">
 															<div class="d-grid">
-																<button type="submit" class="btn btn-light"><i class='bx bx-user'></i>Sign up</button>
+															
+																<button id="tambah" class="btn btn-light"><i class='bx bx-user'></i>Sign up</button>
 															</div>
 														</div>
 													</form>
@@ -107,3 +114,63 @@
 			</div>
 		</div>
 @endsection
+
+@push('js')
+<script>
+//     function setCookie(cname, cvalue, exdays) {
+//   const d = new Date();
+//   d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//   let expires = "expires="+ d.toUTCString();
+//   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
+
+// $(document).on("click","#tambah",function() {
+	
+
+  $('.form-kategori').submit(function(e)
+        {
+            e.preventDefault();
+          
+            // const token = localStorage.getItem('token');
+            const frmdata = new FormData(this);
+          
+            $.ajax({
+                url :'/api/auth/daftar_pelanggan',
+                type : 'POST',
+                data : frmdata,
+                cache : false,
+                contentType : false,
+                processData : false,
+               
+                beforeSend: function()
+          {
+            $(document).find('span.error-text').text('');
+          },
+          success : function(data)
+          {
+			
+            if(data.status == 0)
+            {
+              $.each(data.error, function(prefix, val){
+                        $('span.'+prefix+'_error').text(val[0]);
+                    });
+         
+            }
+            else
+            {
+              alert(data.msg);
+              window.location.href = '/pelanggan/login';
+            }
+          }
+          });
+         
+        });
+
+
+// });
+    
+   
+    
+       
+</script>
+@endpush
