@@ -113,6 +113,3 @@ Route::get("pelanggan/daftar", [
 // Route::post('pelanggan/login', [PelangganFrontController::class, 'post_login']);
 
 Route::get("/cart/", [HomeController::class, "cart"]);
-Route::post("/add_to_cart", [HomeController::class, "add_to_cart"]);
-
-//Route::post('api/daftar_pelanggan', [AuthController::class, 'daftar_pelanggan']);
